@@ -201,6 +201,23 @@ CardSet CardSet::canonize() const
                static_cast<uint64_t>(smasks[0]) << Rank::NUM_RANK*3);
 }
 
+CardSet CardSet::canonizeFloating(const CardSet& other) const {
+    uint32_t smasks[Suit::NUM_SUIT];
+    int i=0;
+    for (Suit s=Suit::begin(); s<Suit::end(); ++s)
+        smasks[i++] = suitMask(s) | (other.suitMask(s) << 15);
+
+    sort(smasks, smasks+Suit::NUM_SUIT);
+
+    uint32_t maskSuit = (1<<Rank::NUM_RANK) - 1;
+    return CardSet(
+               static_cast<uint64_t>(smasks[3] & maskSuit)                     |
+               static_cast<uint64_t>(smasks[2] & maskSuit) << Rank::NUM_RANK   |
+               static_cast<uint64_t>(smasks[1] & maskSuit) << Rank::NUM_RANK*2 |
+               static_cast<uint64_t>(smasks[0] & maskSuit) << Rank::NUM_RANK*3);
+
+}
+
 CardSet CardSet::canonize(const CardSet& other) const
 {
     CardSet cother = other.canonize();

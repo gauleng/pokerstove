@@ -194,6 +194,11 @@ void CardDistribution::removeCards(const CardSet& dead)
             _weights[_handList[i]] = 0.0;
 }
 
+void CardDistribution::addHand(const CardSet& hand, double weight) {
+    _weights[hand] = weight;
+    _handList.push_back(hand);
+}
+
 double CardDistribution::weight() const
 {
     double total = 0.0;

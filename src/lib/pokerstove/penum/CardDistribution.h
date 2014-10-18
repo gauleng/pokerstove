@@ -81,6 +81,9 @@ public:
      */
     double& operator[](const CardSet& cards);
 
+protected:
+    void addHand(const CardSet& hand, double weigth = 1.0);
+
 private:
     const double& weight(const CardSet& cards) const; // operator[]
 
